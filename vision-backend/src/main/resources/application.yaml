@@ -1,0 +1,12 @@
+spring:
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+    serialization:
+      write-dates-as-timestamps: 'false'
+  application:
+    name: fleet-safety-backend
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/fleet_safety_db
+server:
+  port: '8080'

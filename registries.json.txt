@@ -1,0 +1,74 @@
+[
+  {
+    "vehicleId": "BUS-104",
+    "driverId": "DRIVER-882",
+    "earValue": 0.142,
+    "durationSeconds": 2.15,
+    "timestamp": { "$date": "2026-08-02T03:15:22.000Z" },
+    "status": "CRITICAL",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "BUS-104",
+    "driverId": "DRIVER-882",
+    "earValue": 0.158,
+    "durationSeconds": 1.80,
+    "timestamp": { "$date": "2026-08-02T03:42:10.000Z" },
+    "status": "CRITICAL",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "CAM-202",
+    "driverId": "DRIVER-415",
+    "earValue": 0.185,
+    "durationSeconds": 1.55,
+    "timestamp": { "$date": "2026-08-02T04:05:01.000Z" },
+    "status": "REVIEWED",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "TRK-001",
+    "driverId": "DRIVER-901",
+    "earValue": 0.135,
+    "durationSeconds": 2.40,
+    "timestamp": { "$date": "2026-08-02T04:22:45.000Z" },
+    "status": "CRITICAL",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "BUS-104",
+    "driverId": "DRIVER-882",
+    "earValue": 0.120,
+    "durationSeconds": 2.90,
+    "timestamp": { "$date": "2026-08-02T04:50:30.000Z" },
+    "status": "CRITICAL",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "CAM-202",
+    "driverId": "DRIVER-415",
+    "earValue": 0.190,
+    "durationSeconds": 1.50,
+    "timestamp": { "$date": "2026-08-02T08:12:14.000Z" },
+    "status": "RESOLVED",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "TRK-005",
+    "driverId": "DRIVER-103",
+    "earValue": 0.165,
+    "durationSeconds": 1.72,
+    "timestamp": { "$date": "2026-08-02T10:05:00.000Z" },
+    "status": "REVIEWED",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  },
+  {
+    "vehicleId": "BUS-108",
+    "driverId": "DRIVER-554",
+    "earValue": 0.148,
+    "durationSeconds": 2.05,
+    "timestamp": { "$date": "2026-08-02T11:40:19.000Z" },
+    "status": "CRITICAL",
+    "_class": "com.fleetsafety.domain.DrowsinessEvent"
+  }
+]
