@@ -35,6 +35,9 @@ export default function App() {
           if (message.body) {
             const newEvent = JSON.parse(message.body);
             
+            // Reproducir sonido de alarma de emergencia
+            playIndustrialAlarm(60);
+
             // Actualizar alerta destacada
             setLatestAlert(newEvent);
             
@@ -58,12 +61,83 @@ export default function App() {
     };
   }, []);
 
+  let globalAudioCtx = null;
+
+  const getAudioContext = () => {
+    if (!globalAudioCtx) {
+      globalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (globalAudioCtx.state === 'suspended') {
+      globalAudioCtx.resume();
+    }
+    return globalAudioCtx;
+  };
+
+  // Alarma Repetible
+  const playIndustrialAlarm = (repetitions = 15) => {
+    try {
+      const audioCtx = getAudioContext();
+      let currentRep = 0;
+
+      const playCycle = () => {
+        const now = audioCtx.currentTime;
+
+        const pulses = [
+          { time: 0.00, freq: 800 },
+          { time: 0.15, freq: 550 },
+        ];
+
+        pulses.forEach(({ time, freq }) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + time);
+
+          gain.gain.setValueAtTime(0, now + time);
+          gain.gain.linearRampToValueAtTime(0.3, now + time + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + time + 0.12);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(now + time);
+          osc.stop(now + time + 0.12);
+        });
+
+        currentRep++;
+      };
+
+      playCycle();
+
+      const intervalId = setInterval(() => {
+        if (currentRep >= repetitions) {
+          clearInterval(intervalId);
+        } else {
+          playCycle();
+        }
+      }, 350);
+
+    } catch (e) {
+      console.error("Error reproduciendo la alarma:", e);
+    }
+  };
+
   // KPIs
   const totalAlerts = events.length;
   const criticalAlerts = events.filter((e) => e.status === 'CRITICAL').length;
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 p-6">
+      <button 
+          onClick={() => {
+            getAudioContext();
+            playIndustrialAlarm(1);
+          }} 
+          className="px-3 py-1 bg-red-600 hover:bg-red-700 text-xs font-bold text-white rounded-lg flex items-center gap-2 animate-pulse"
+        >
+      🚨 Probar Alarma (1x)
+    </button>
       {/* HEADER Y ESTADO WEBSOCKET */}
       <header className="flex justify-between items-center pb-6 border-b border-slate-800 mb-6">
         <div>
@@ -106,7 +180,7 @@ export default function App() {
               </div>
             </div>
             <button 
-              onClick={() => setLatestAlert(null)}
+              onClick={() => setLatestAlert(null) }
               className="px-3 py-1 bg-rose-900/50 hover:bg-rose-800 text-rose-200 text-xs rounded-md border border-rose-700"
             >
               Cerrar Alerta
