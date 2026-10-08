@@ -1,4 +1,4 @@
-# 🚚 FleetSafety Monitor: Real-Time Driver Drowsiness Detection System
+# 🚚 FleetSafety Monitor: Sistema de Detección de Somnolencia de Conductores en Tiempo Real
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-17-orange.svg) ![Spring
@@ -7,69 +7,72 @@ Boot](https://img.shields.io/badge/Spring%20Boot-3.3.2-brightgreen.svg)
 ![Python](https://img.shields.io/badge/Python-3.11-yellow.svg)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green.svg)
 
-**FleetSafety Monitor** is an end-to-end industrial platform designed
-for accident prevention in transport fleets. The system processes video
-in real time from the vehicle cabin using Edge AI (Computer Vision) to
-detect fatigue/drowsiness patterns through Eye Aspect Ratio (EAR)
-calculations, persists incidents in MongoDB, and streams alerts in real
-time to a web control tower via WebSockets.
+**FleetSafety Monitor** es una plataforma industrial de extremo a extremo
+diseñada para la prevención de accidentes en flotas de transporte. El
+sistema procesa video en tiempo real desde la cabina del vehículo usando
+Edge AI (Visión por Computadora) para detectar patrones de fatiga y
+somnolencia mediante el cálculo del Eye Aspect Ratio (EAR, relación de
+aspecto del ojo), guarda los incidentes en MongoDB y transmite alertas en
+tiempo real a una torre de control web mediante WebSockets.
 
 ------------------------------------------------------------------------
 
-## 📐 System Architecture
+## 📐 Arquitectura del Sistema
 
 ``` text
  ┌─────────────────────────────────────────────────────────────────┐
- │                        VEHICLE (EDGE)                           │
+ │                        VEHÍCULO (EDGE)                          │
  │                                                                 │
- │   [ IR Camera ] ──► [ Python Script + OpenCV / MediaPipe ]      │
+ │   [ Cámara IR ] ──► [ Script Python + OpenCV / MediaPipe ]      │
  │                                   │                             │
- │                         EAR Calculation < Threshold             │
+ │                      Cálculo de EAR < Umbral                    │
  │                                   │                             │
  │                            POST /api/v1/events                  │
  └───────────────────────────────────┬─────────────────────────────┘
                                      │ HTTP / JSON (UTC)
                                      ▼
  ┌─────────────────────────────────────────────────────────────────┐
- │                      CENTRAL BACKEND (CLOUD)                    │
+ │                   BACKEND CENTRAL (NUBE)                        │
  │                                                                 │
  │             [ Spring Boot 3.3.2 + Spring Data MongoDB ]         │
  │                                   │                             │
- │                            STOMP over WebSocket                 │
+ │                            STOMP sobre WebSocket                │
  │                                   │                             │
  └───────────────────────────────────┬─────────────────────────────┘
                                      │ /topic/alerts
                                      ▼
  ┌─────────────────────────────────────────────────────────────────┐
- │                        CONTROL TOWER (WEB)                      │
+ │                    TORRE DE CONTROL (WEB)                       │
  │                                                                 │
  │          [ React + Vite + Tailwind CSS + Web Audio API ]        │
- │              (Live visual & emergency audio alerts)             │
+ │       (Alertas visuales y de audio de emergencia en vivo)       │
  └─────────────────────────────────────────────────────────────────┘
 ```
 
 ------------------------------------------------------------------------
 
-## ✨ Key Features
+## ✨ Características Principales
 
--   **Edge Computer Vision:** Lightweight video processing using OpenCV
-    and MediaPipe to detect facial landmarks and monitor prolonged eye
-    closure.
--   **Real-Time Responsiveness:** Instant event broadcasting through
-    WebSockets (STOMP broker) without requiring page reloads.
--   **NoSQL Persistence:** Optimized incident history stored in MongoDB
-    for post-incident analysis and driver risk profiling.
--   **Visual & Audio Alerts:** Reactive dashboard built with Tailwind
-    CSS that displays emergency banners and plays browser alarms using
-    the Web Audio API.
--   **Flexible REST API:** REST endpoints for fleet metrics, event
-    registration, and historical incident management.
+-   **Visión por Computadora en el Edge:** Procesamiento de video ligero
+    usando OpenCV y MediaPipe para detectar puntos de referencia faciales
+    y monitorear el cierre prolongado de los ojos.
+-   **Respuesta en Tiempo Real:** Transmisión instantánea de eventos
+    mediante WebSockets (broker STOMP) sin necesidad de recargar la
+    página.
+-   **Persistencia NoSQL:** Historial de incidentes optimizado y
+    almacenado en MongoDB para el análisis posterior a los incidentes y
+    la elaboración de perfiles de riesgo de los conductores.
+-   **Alertas Visuales y de Audio:** Panel reactivo construido con
+    Tailwind CSS que muestra banners de emergencia y reproduce alarmas en
+    el navegador mediante la Web Audio API.
+-   **API REST Flexible:** Endpoints REST para métricas de la flota,
+    registro de eventos y gestión del historial de incidentes.
 
 ------------------------------------------------------------------------
 
-## 🛠️ Tech Stack
+## 🛠️ Stack Tecnológico
 
-### Edge / Computer Vision (Python)
+### Edge / Visión por Computadora (Python)
 
 -   Python 3.11+
 -   OpenCV
@@ -96,47 +99,47 @@ time to a web control tower via WebSockets.
 
 ------------------------------------------------------------------------
 
-## 📂 Repository Structure
+## 📂 Estructura del Repositorio
 
 ``` text
 fleet-safety-monitor/
-├── vision-edge/               # Camera & Computer Vision script (Python)
-├── fleet-backend/             # REST API & WebSocket Broker (Spring Boot)
-└── vision-frontend/           # Real-Time Dashboard (React + Vite + Tailwind)
+├── vision-edge/               # Cámara y script de visión por computadora (Python)
+├── fleet-backend/             # API REST y broker WebSocket (Spring Boot)
+└── vision-frontend/           # Panel en tiempo real (React + Vite + Tailwind)
 ```
 
 ------------------------------------------------------------------------
 
-## ⚙️ Setup & Installation
+## ⚙️ Configuración e Instalación
 
-### 1. Prerequisites
+### 1. Requisitos Previos
 
 -   Java Development Kit (JDK) 17
--   Node.js v18+ and npm
+-   Node.js v18+ y npm
 -   Python 3.10+
--   MongoDB Community Server running on `localhost:27017`
+-   MongoDB Community Server ejecutándose en `localhost:27017`
 
-### 2. Database Setup (MongoDB)
+### 2. Configuración de la Base de Datos (MongoDB)
 
-Create the `fleet_safety_db` database and import the `drowsiness_events`
-collection using the provided JSON sample.
+Crea la base de datos `fleet_safety_db` e importa la colección
+`drowsiness_events` usando el JSON de ejemplo incluido.
 
-### 3. Run Backend (Spring Boot)
+### 3. Ejecutar el Backend (Spring Boot)
 
 ``` bash
 cd fleet-backend
 ./gradlew bootRun
 ```
 
-Server: `http://localhost:8080`
+Servidor: `http://localhost:8080`
 
-WebSocket endpoint:
+Endpoint de WebSocket:
 
 ``` text
 ws://localhost:8080/ws-fleet
 ```
 
-### 4. Run Frontend (React)
+### 4. Ejecutar el Frontend (React)
 
 ``` bash
 cd vision-frontend
@@ -144,15 +147,16 @@ npm install
 npm run dev
 ```
 
-Open:
+Abre:
 
 ``` text
 http://localhost:5173
 ```
 
-Click **🔔 Test Alarm** once to allow browser audio permissions.
+Haz clic una vez en **🔔 Test Alarm** para permitir los permisos de audio
+del navegador.
 
-### 5. Run Computer Vision Module (Python)
+### 5. Ejecutar el Módulo de Visión por Computadora (Python)
 
 ``` bash
 cd vision-edge
@@ -160,13 +164,13 @@ pip install opencv-python mediapipe requests
 python detector.py
 ```
 
-Closing your eyes longer than the configured threshold (1.5 seconds)
-automatically sends an HTTP POST request to the backend and instantly
-broadcasts an alert to every connected dashboard.
+Si cierras los ojos por más tiempo que el umbral configurado (1.5
+segundos), se envía automáticamente una petición HTTP POST al backend y se
+transmite al instante una alerta a todos los paneles conectados.
 
 ------------------------------------------------------------------------
 
-## 📡 Sample Event Payload
+## 📡 Ejemplo de Payload de Evento
 
 ``` json
 {
